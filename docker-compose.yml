@@ -1,0 +1,125 @@
+version: '3'
+services:
+  discovery-service:
+    networks:
+      - microservices-implementation_backend
+    image: mundex/discovery-service:equipo4
+    ports:
+      - 8761:8761
+  config-server:
+    image: mundex/config-server:equipo4
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    depends_on:
+      - discovery-service
+    ports:
+      - 8888:8888
+  api-gateway:
+    networks:
+      - microservices-implementation_backend
+    image: mundex/api-gateway:equipo4
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    depends_on:
+      - discovery-service
+    ports:
+      - 8080:8080
+  enterprise-microservice:
+    networks:
+      - microservices-implementation_backend
+    image: mundex/enterprise-microservice:equipo4
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    depends_on:
+      - discovery-service
+      - config-server
+      - api-gateway
+      - agency-microservice
+    ports:
+      - 8083:8083
+  agency-microservice:
+    networks:
+      - microservices-implementation_backend
+    image: mundex/agency-microservice:equipo4
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    depends_on:
+      - discovery-service
+      - config-server
+      - api-gateway
+    ports:
+      - 8084:8084
+  shipment-microservice:
+    networks:
+      - microservices-implementation_backend
+    image: mundex/shipment-microservice:equipo4
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    depends_on:
+      - discovery-service
+      - config-server
+      - api-gateway
+      - client-microservice
+    ports:
+      - 8082:8082
+  client-microservice:
+    networks:
+      - microservices-implementation_backend
+    image: mundex/client-microservice:equipo4
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    depends_on:
+      - discovery-service
+      - config-server
+      - api-gateway
+    ports:
+      - 8081:8081
+  feedback-service:
+    networks:
+      - microservices-implementation_backend
+    image: mundex/feedback-service:equipo4
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    depends_on:
+      - discovery-service
+      - config-server
+      - api-gateway
+      - shipment-microservice
+    ports:
+      - 8085:8085
+  verification-service:
+    networks:
+      - microservices-implementation_backend
+    image: mundex/verification-service:equipo4
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    depends_on:
+      - discovery-service
+      - config-server
+      - api-gateway
+    ports:
+      - 8086:8086
+  package-status-microservice:
+    networks:
+      - microservices-implementation_backend
+    image: mundex/package-status-microservice:equipo4
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    depends_on:
+      - discovery-service
+      - config-server
+      - api-gateway
+    ports:
+      - 8087:8087
+networks:
+    microservices-implementation_backend:
+        driver: bridge

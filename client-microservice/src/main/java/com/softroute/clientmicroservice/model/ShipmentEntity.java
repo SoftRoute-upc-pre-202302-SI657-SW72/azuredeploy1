@@ -1,0 +1,35 @@
+package com.softroute.clientmicroservice.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import java.util.Date;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ShipmentEntity {
+    private String description;
+    @Column(name = "quantity", nullable = false)
+    private int quantity;
+    @Column(name = "date_registered", nullable = false)
+    private Date dateRegistered;
+    @Column(name = "code", nullable = false, length = 10, unique = true, updatable = false, columnDefinition = "varchar(10) default '0000000000'")
+    private String code;
+    @Column(name = "delivered_status", nullable = false, columnDefinition = "boolean default false")
+    private Boolean deliveredStatus;
+    @Column(name = "origin_agency_id", nullable = false)
+    private Long originAgencyId;
+    @Column(name = "destination_agency_id", nullable = false)
+    private Long destinationAgencyId;
+    @Column(name = "type_package", nullable = false)
+    private String typePackage;
+    @Column(name = "emitter_id", nullable = false)
+    private Long emitterId;
+    @Column(name = "receiver_id", nullable = false)
+    private Long receiverId;
+    @Column(name = "location_information", nullable = false)
+    private String locationInformation;
+}
