@@ -3,14 +3,15 @@ services:
   discovery-service:
     networks:
       - microservices-implementation_backend
-    image: mundex/discovery-service:equipo4
+    image: mundex/discovery-service:deploy1
     ports:
       - 8761:8761
   config-server:
-    image: mundex/config-server:equipo4
+    image: mundex/config-server:deploy1
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    restart: on-failure
     depends_on:
       - discovery-service
     ports:
@@ -18,10 +19,11 @@ services:
   api-gateway:
     networks:
       - microservices-implementation_backend
-    image: mundex/api-gateway:equipo4
+    image: mundex/api-gateway:deploy1
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    restart: on-failure
     depends_on:
       - discovery-service
     ports:
@@ -29,10 +31,11 @@ services:
   enterprise-microservice:
     networks:
       - microservices-implementation_backend
-    image: mundex/enterprise-microservice:equipo4
+    image: mundex/enterprise-microservice:deploy1
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    restart: on-failure
     depends_on:
       - discovery-service
       - config-server
@@ -43,10 +46,11 @@ services:
   agency-microservice:
     networks:
       - microservices-implementation_backend
-    image: mundex/agency-microservice:equipo4
+    image: mundex/agency-microservice:deploy1
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    restart: on-failure
     depends_on:
       - discovery-service
       - config-server
@@ -56,10 +60,11 @@ services:
   shipment-microservice:
     networks:
       - microservices-implementation_backend
-    image: mundex/shipment-microservice:equipo4
+    image: mundex/shipment-microservice:deploy1
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    restart: on-failure
     depends_on:
       - discovery-service
       - config-server
@@ -70,10 +75,11 @@ services:
   client-microservice:
     networks:
       - microservices-implementation_backend
-    image: mundex/client-microservice:equipo4
+    image: mundex/client-microservice:deploy1
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    restart: on-failure
     depends_on:
       - discovery-service
       - config-server
@@ -83,10 +89,11 @@ services:
   feedback-service:
     networks:
       - microservices-implementation_backend
-    image: mundex/feedback-service:equipo4
+    image: mundex/feedback-service:deploy1
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    restart: on-failure
     depends_on:
       - discovery-service
       - config-server
@@ -97,10 +104,11 @@ services:
   verification-service:
     networks:
       - microservices-implementation_backend
-    image: mundex/verification-service:equipo4
+    image: mundex/verification-service:deploy1
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    restart: on-failure
     depends_on:
       - discovery-service
       - config-server
@@ -110,10 +118,11 @@ services:
   package-status-microservice:
     networks:
       - microservices-implementation_backend
-    image: mundex/package-status-microservice:equipo4
+    image: mundex/package-status-microservice:deploy1
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://discovery-service:8761/eureka
+    restart: on-failure
     depends_on:
       - discovery-service
       - config-server
